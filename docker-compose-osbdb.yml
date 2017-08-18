@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  osbdb:
+    image: "osb_db"
+    volumes:
+      - type: volume
+        source: oradata
+        target: /opt/oracle/oradata
+        volume:
+          nocopy: false
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+volumes:
+  oradata:

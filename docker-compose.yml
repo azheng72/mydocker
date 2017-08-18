@@ -1,0 +1,41 @@
+version: '3.2'
+services:
+  osbadmin:
+    build:
+      context: .
+      dockerfile: ./myDockerfile_osb_domain
+    image: "osb_domain"
+    ports:
+      - "7001:7001"
+      - "8011:8011"
+    depends_on:
+      - "osbdb"
+    command: ["/u01/oracle/container-scripts/wait-for-it.sh", "noexist:80", "-t", "60", "--", "/u01/oracle/container-scripts/mystartOSBDomain.sh"]
+
+  osbdb:
+    image: "osb_db"
+    volumes:
+      - type: volume
+        source: oradata
+        target: /opt/oracle/oradata
+        volume:
+          nocopy: false
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+ 
+  wsadmin:
+    image: "ws_domain"
+    ports:
+      - "7005:7001"
+
+  wsdb:
+    image: "ws_db"
+    ports: 
+      - "1522:1521"
+      - "5501:5500"
+    shm_size: 2g
+   
+volumes:
+  oradata:
+

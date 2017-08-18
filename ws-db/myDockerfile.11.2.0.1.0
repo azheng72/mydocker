@@ -1,0 +1,8 @@
+FROM oracle/db/xe:11.2.0.1.0
+
+COPY myCMD.sh /
+
+RUN chown oracle:dba /myCMD.sh && \
+    chmod u+x /myCMD.sh
+
+CMD /myCMD.sh
