@@ -1,0 +1,41 @@
+#
+# The resulting image of this Dockerfile would have oracle linux and oracle weblogic 1221  and osb1221 installed and scripts to create domain
+#
+# ----------------------------------
+# REQUIRED FILES TO BUILD THIS IMAGE
+# ----------------------------------
+# (1) container-scripts
+#
+#
+# ---------------
+# Pull base image
+# ---------------
+FROM soa:scripts-loaded
+
+# ----------
+# Maintainer
+# ----------
+MAINTAINER Zheng Liang <zheng.liang@precise-soft.com>
+
+#
+# Set the environment values
+# -----------------------------------------
+ENV CREATE_DOMAIN_ONLY=true
+
+# ----------------------------------
+# Create OSB domain:
+# ----------------------------------
+USER oracle
+RUN cd /u01/oracle/container-scripts && \
+    ./createAndStartOSBDomain.sh
+
+# ----------------------------------
+# User initial environment
+# ----------------------------------
+WORKDIR /u01/oracle/
+ENV CREATE_DOMAIN_ONLY=false
+
+# ----------------------------------
+# Define default command to start bash.
+# ----------------------------------
+CMD ["/u01/oracle/container-scripts/createAndStartOSBDomain.sh"]

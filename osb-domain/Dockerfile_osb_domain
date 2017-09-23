@@ -17,7 +17,7 @@
 # ---------------
 # Pull base image
 # ---------------
-FROM oracle/soa:12.2.1.0-quickstart
+FROM oracle/soa:12.2.1.0-patched
 
 # ----------
 # Maintainer
@@ -60,9 +60,6 @@ RUN cd /u01/oracle/container-scripts && \
 USER oracle
 WORKDIR /u01/oracle/
 ENV PATH $PATH:/u01/oracle/oracle_common/common/bin
-
-WORKDIR /u01/oracle/container-scripts/
-RUN ./mycreateOSBDomain.sh
 
 # ----------------------------------
 # Define default command to start bash.

@@ -19,6 +19,10 @@ trap _term SIGTERM
 # Set SIGKILL handler
 trap _kill SIGKILL
 
+#Overwrite
+export MS_NAME="ms_$(cat /etc/hostname)"
+export MACHINE_NAME="machine_$(cat /etc/hostname)"
+
 #Absolute path of current file
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DOMAIN_HOME=/u01/oracle/domains/osb_domain
@@ -42,7 +46,7 @@ fi
 
 
 # Start Managed Server
-${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME  http://wlsadmin:7001 &> ${MS_LOGS}/${MS_NAME}.out &
+${DOMAIN_HOME}/bin/startManagedWebLogic.sh $MS_NAME  http://osbadmin:7001 &> ${MS_LOGS}/${MS_NAME}.out &
 
 touch ${MS_LOGS}/${MS_NAME}.out
 tail -f ${MS_LOGS}/${MS_NAME}.out &

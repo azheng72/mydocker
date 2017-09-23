@@ -1,0 +1,40 @@
+# ----------------------------------
+# REQUIRED FILES TO BUILD THIS IMAGE
+# ----------------------------------
+# (1) container-scripts
+#
+#
+# ---------------
+# Pull base image
+# ---------------
+FROM oracle/soa:12.2.1.0-patched
+
+# ----------
+# Maintainer
+# ----------
+MAINTAINER Zheng Liang <zheng.liang@precise-soft.com>
+
+# ----------------------
+# Copy packages
+#-----------------------
+ADD container-scripts /u01/oracle/container-scripts/
+
+
+# ----------------------------------
+# install OSB required rpm packages:
+# ----------------------------------
+USER root
+RUN cd /u01/oracle/container-scripts && \
+    chmod a+x *.sh && \
+    chown -R oracle:oracle . *
+
+# ----------------------------------
+# User initial environment
+# ----------------------------------
+WORKDIR /u01/oracle/
+ENV PATH $PATH:/u01/oracle/oracle_common/common/bin 
+
+# ----------------------------------
+# Define default command to start bash.
+# ----------------------------------
+CMD ["bash"]

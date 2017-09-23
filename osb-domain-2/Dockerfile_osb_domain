@@ -35,7 +35,7 @@ ENV OSB_ADMIN_PORT=7001 \
 # ----------------------
 # Copy packages
 #-----------------------
-ADD osb-domain/container-scripts /u01/oracle/container-scripts/
+ADD container-scripts /u01/oracle/container-scripts/
 
 # ----------------------------------
 # Expose ports
@@ -46,12 +46,9 @@ EXPOSE $OSB_NM_PORT $OSB_ADMIN_PORT $OSB_PORT
 # install OSB required rpm packages:
 # ----------------------------------
 USER root
-#RUN cd /u01/oracle/container-scripts && \
-#    chmod a+x *.sh && \
-#    chown -R oracle:oracle . *
 RUN cd /u01/oracle/container-scripts && \
     chmod a+x *.sh && \
-    chown oracle:oracle -R /u01/oracle/*.sh
+    chown -R oracle:oracle . *
 
 
 # ----------------------------------
@@ -61,10 +58,7 @@ USER oracle
 WORKDIR /u01/oracle/
 ENV PATH $PATH:/u01/oracle/oracle_common/common/bin
 
-WORKDIR /u01/oracle/container-scripts/
-RUN ./mycreateOSBDomain.sh
-
 # ----------------------------------
 # Define default command to start bash.
 # ----------------------------------
-CMD ["/u01/oracle/container-scripts/mystartOSBDomain.sh"]
+CMD ["/u01/oracle/container-scripts/createAndStartOSBDomain.sh"]
